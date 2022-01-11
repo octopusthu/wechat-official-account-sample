@@ -2,13 +2,30 @@
 
 <head>
   <title>CIAM Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>
-    const authorizeBaseUrl= 'https://open.weixin.qq.com/connect/oauth2/authorize'
-    const authorizeUrl = '?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect'
+    const appId = 'wxe398554f965910df'
+    const redirectUri = 'https://grxv2y.portal.tencentciam.com'
+
+    function getAuthorizeUrl(scope) {
+      const authorizeBaseUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize'
+      return authorizeBaseUrl + '?' + `appid=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scope}&state=${generateState()}#wechat_redirect`
+    }
+
+    function generateState() {
+      return '123';
+    }
+
+    window.onload = () => {
+      document.getElementById('silent-login').href = getAuthorizeUrl('snsapi_base');
+      document.getElementById('user-info-login').href = getAuthorizeUrl('snsapi_userinfo');
+    }
   </script>
 </head>
 
 <body>
+  <div><a id="silent-login">静默登录</a></div>
+  <div><a id="user-info-login">获取用户信息登录</a></div>
 </body>
 
 </html>
